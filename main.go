@@ -1,14 +1,22 @@
 package main
 
 import (
-	"fmt"
-	"github.com/dev-beom/faas/single"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+	"net/http"
+	"strconv"
 )
 
 func main() {
-	hello, err := single.Hello("모듈 환경 테스트")
-	if err != nil {
-		return
-	}
-	fmt.Println(hello)
+	app := echo.New()
+	port := 5000
+
+	app.Use(middleware.Logger())
+	app.Use(middleware.Recover())
+
+	app.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!\n")
+	})
+
+	app.Logger.Fatal(app.Start(":" + strconv.Itoa(port)))
 }
