@@ -9,6 +9,7 @@ var store = make(map[string]models.Instance)
 
 type Repository interface {
 	Find(id string) (models.Instance, error)
+	FindAll() map[string]models.Instance
 	Create(instance models.Instance) error
 	Delete(id string) error
 	Update(id string, instance models.Instance) (models.Instance, error)
@@ -17,7 +18,7 @@ type Repository interface {
 type repository struct {
 }
 
-func (this *repository) Find(id string) (models.Instance, error) {
+func (r *repository) Find(id string) (models.Instance, error) {
 	instance, ok := store[id]
 	if !ok {
 		return models.Instance{}, exception.ErrNotFoundData
@@ -25,7 +26,11 @@ func (this *repository) Find(id string) (models.Instance, error) {
 	return instance, nil
 }
 
-func (this *repository) Create(instance models.Instance) error {
+func (r *repository) FindAll() map[string]models.Instance {
+	return store
+}
+
+func (r *repository) Create(instance models.Instance) error {
 	_, ok := store[instance.Id]
 	if ok {
 		return exception.ErrAlreadyExist
@@ -34,7 +39,7 @@ func (this *repository) Create(instance models.Instance) error {
 	return nil
 }
 
-func (this *repository) Delete(id string) error {
+func (r *repository) Delete(id string) error {
 	_, ok := store[id]
 	if !ok {
 		return exception.ErrNotFoundData
@@ -43,7 +48,7 @@ func (this *repository) Delete(id string) error {
 	return nil
 }
 
-func (this *repository) Update(id string, instance models.Instance) (models.Instance, error) {
+func (r *repository) Update(id string, instance models.Instance) (models.Instance, error) {
 	_, ok := store[id]
 	if !ok {
 		return models.Instance{}, exception.ErrNotFoundData

@@ -12,6 +12,8 @@ import (
 )
 
 type Service interface {
+	Get(id string) (models.Instance, error)
+	GetAll() map[string]models.Instance
 	Create(instance models.Instance) error
 	Delete(id string) error
 	UpdateDescription(id string, description string) (models.Instance, error)
@@ -22,22 +24,31 @@ type service struct {
 	instanceRepository Repository
 }
 
-func (this *service) Create(instance models.Instance) error {
-	err := this.instanceRepository.Create(instance)
+func (s *service) Get(id string) (models.Instance, error) {
+	find, _ := s.instanceRepository.Find(id)
+	return find, nil
+}
+
+func (s *service) GetAll() map[string]models.Instance {
+	return s.instanceRepository.FindAll()
+}
+
+func (s *service) Create(instance models.Instance) error {
+	err := s.instanceRepository.Create(instance)
 	if err != nil {
 		return exception.ErrAlreadyExist
 	}
 	return nil
 }
-func (this *service) Delete(id string) error {
-	err := this.instanceRepository.Delete(id)
+func (s *service) Delete(id string) error {
+	err := s.instanceRepository.Delete(id)
 	if err != nil {
 		return exception.ErrNotFoundData
 	}
 	return nil
 }
-func (this *service) UpdateDescription(id string, description string) (models.Instance, error) {
-	foundInstance, _ := this.instanceRepository.Find(id)
+func (s *service) UpdateDescription(id string, description string) (models.Instance, error) {
+	foundInstance, _ := s.instanceRepository.Find(id)
 	foundInstance = models.Instance{
 		Id:          foundInstance.Id,
 		Description: description,
@@ -45,12 +56,12 @@ func (this *service) UpdateDescription(id string, description string) (models.In
 		UpdateAt:    time.Now(),
 		State:       foundInstance.State,
 	}
-	updatedInstance, _ := this.instanceRepository.Update(id, foundInstance)
+	updatedInstance, _ := s.instanceRepository.Update(id, foundInstance)
 	return updatedInstance, nil
 }
 
-func (this *service) UpdateState(id string, state string) (models.Instance, error) {
-	foundInstance, _ := this.instanceRepository.Find(id)
+func (s *service) UpdateState(id string, state string) (models.Instance, error) {
+	foundInstance, _ := s.instanceRepository.Find(id)
 	foundInstance = models.Instance{
 		Id:          foundInstance.Id,
 		Description: foundInstance.Description,
@@ -58,6 +69,6 @@ func (this *service) UpdateState(id string, state string) (models.Instance, erro
 		UpdateAt:    time.Now(),
 		State:       state,
 	}
-	updatedInstance, _ := this.instanceRepository.Update(id, foundInstance)
+	updatedInstance, _ := s.instanceRepository.Update(id, foundInstance)
 	return updatedInstance, nil
 }
