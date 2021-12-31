@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/dev-beom/faas/domains/instance"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"net/http"
 	"strconv"
 )
 
@@ -18,9 +18,7 @@ func main() {
 	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
 
-	app.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!\n")
-	})
+	app.GET("/api/instance/:id", instanceController.Get)
 
 	app.Logger.Fatal(app.Start(":" + strconv.Itoa(port)))
 }
