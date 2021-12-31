@@ -18,6 +18,10 @@ type Repository interface {
 type repository struct {
 }
 
+func NewRepository() Repository {
+	return &repository{}
+}
+
 func (r *repository) Find(id string) (models.Instance, error) {
 	instance, ok := store[id]
 	if !ok {

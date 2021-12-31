@@ -11,6 +11,10 @@ func main() {
 	app := echo.New()
 	port := 5000
 
+	instanceRepository := instance.NewRepository()
+	instanceService := instance.NewService(instanceRepository)
+	instanceController := instance.NewController(instanceService)
+
 	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
 

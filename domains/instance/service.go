@@ -24,6 +24,10 @@ type service struct {
 	instanceRepository Repository
 }
 
+func NewService(repository Repository) Service {
+	return &service{repository}
+}
+
 func (s *service) Get(id string) (models.Instance, error) {
 	find, _ := s.instanceRepository.Find(id)
 	return find, nil
