@@ -8,13 +8,21 @@ import (
 var store = make(map[string]models.Instance)
 
 type Repository interface {
+	Find(id string) (models.Instance, error)
 	Create(instance models.Instance) error
 	Delete(id string) error
-	UpdateDescription(instance models.Instance) (models.Instance, error)
-	UpdateState(id string, state string) (models.Instance, error)
+	Update(id string, instance models.Instance) (models.Instance, error)
 }
 
 type repository struct {
+}
+
+func (this *repository) Find(id string) (models.Instance, error) {
+	instance, ok := store[id]
+	if !ok {
+		return models.Instance{}, exception.ErrNotFoundData
+	}
+	return instance, nil
 }
 
 func (this *repository) Create(instance models.Instance) error {
@@ -35,20 +43,11 @@ func (this *repository) Delete(id string) error {
 	return nil
 }
 
-func (this *repository) UpdateDescription(instance models.Instance) (models.Instance, error) {
-	_, ok := store[instance.Id]
+func (this *repository) Update(id string, instance models.Instance) (models.Instance, error) {
+	_, ok := store[id]
 	if !ok {
 		return models.Instance{}, exception.ErrNotFoundData
 	}
-	store[instance.Id] = instance
-	return store[instance.Id], nil
-}
-
-func (this *repository) UpdateState(id string, state string) (models.Instance, error) {
-	findInstance, ok := store[id]
-	if !ok {
-		return models.Instance{}, exception.ErrNotFoundData
-	}
-	findInstance.State = state
-	return findInstance, nil
+	store[id] = instance
+	return store[id], nil
 }
