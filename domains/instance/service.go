@@ -29,8 +29,8 @@ func NewService(repository Repository) Service {
 }
 
 func (s *service) Get(id string) (models.Instance, error) {
-	find, _ := s.instanceRepository.Find(id)
-	return find, nil
+	find, err := s.instanceRepository.Find(id)
+	return find, err
 }
 
 func (s *service) GetAll() map[string]models.Instance {
@@ -52,7 +52,10 @@ func (s *service) Delete(id string) error {
 	return nil
 }
 func (s *service) UpdateDescription(id string, description string) (models.Instance, error) {
-	foundInstance, _ := s.instanceRepository.Find(id)
+	foundInstance, err := s.instanceRepository.Find(id)
+	if err != nil {
+		return models.Instance{}, err
+	}
 	foundInstance = models.Instance{
 		Id:          foundInstance.Id,
 		Description: description,
@@ -60,12 +63,18 @@ func (s *service) UpdateDescription(id string, description string) (models.Insta
 		UpdateAt:    time.Now(),
 		State:       foundInstance.State,
 	}
-	updatedInstance, _ := s.instanceRepository.Update(id, foundInstance)
+	updatedInstance, err := s.instanceRepository.Update(id, foundInstance)
+	if err != nil {
+		return models.Instance{}, err
+	}
 	return updatedInstance, nil
 }
 
 func (s *service) UpdateState(id string, state string) (models.Instance, error) {
-	foundInstance, _ := s.instanceRepository.Find(id)
+	foundInstance, err := s.instanceRepository.Find(id)
+	if err != nil {
+		return models.Instance{}, nil
+	}
 	foundInstance = models.Instance{
 		Id:          foundInstance.Id,
 		Description: foundInstance.Description,
@@ -73,6 +82,9 @@ func (s *service) UpdateState(id string, state string) (models.Instance, error) 
 		UpdateAt:    time.Now(),
 		State:       state,
 	}
-	updatedInstance, _ := s.instanceRepository.Update(id, foundInstance)
+	updatedInstance, err := s.instanceRepository.Update(id, foundInstance)
+	if err != nil {
+		return models.Instance{}, nil
+	}
 	return updatedInstance, nil
 }
