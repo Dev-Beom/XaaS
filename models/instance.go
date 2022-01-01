@@ -18,7 +18,11 @@ type Instance struct {
 	State       string    `bson:"state"`
 }
 
-func (instance *Instance) setStateCreating() {
+type InstanceCreateRequestDto struct {
+	Id          string `bson:"id"`
+	Description string `bson:"description"`
+}
+
 func (instance *Instance) SetStateCreating() {
 	instance.State = Creating
 }
