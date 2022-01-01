@@ -2,8 +2,10 @@ package instance
 
 import (
 	"github.com/dev-beom/faas/filter"
+	"github.com/dev-beom/faas/models"
 	"github.com/labstack/echo"
 	"net/http"
+	"time"
 )
 
 /**
@@ -28,5 +30,33 @@ func (c *controller) Get(context echo.Context) error {
 		return context.JSON(resp.Code, resp.Interface)
 	}
 	resp := filter.GetOKResponseType("Data", instance)
+	return context.JSON(resp.Code, resp.Interface)
+}
+
+func (c *controller) GetAll(context echo.Context) error {
+	instances := c.instanceService.GetAll()
+	resp := filter.GetOKResponseType("Data", instances)
+	return context.JSON(resp.Code, resp.Interface)
+}
+func (c *controller) Create(context echo.Context) error {
+	var instanceCreateRequestDto models.InstanceCreateRequestDto
+	err := context.Bind(&instanceCreateRequestDto)
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusInternalServerError, err)
+		return context.JSON(resp.Code, resp.Interface)
+	}
+	var instance = models.Instance{
+		Id:          instanceCreateRequestDto.Id,
+		Description: instanceCreateRequestDto.Description,
+		CreateAt:    time.Now(),
+		UpdateAt:    time.Now(),
+	}
+	instance.SetStateCreating()
+	err = c.instanceService.Create(instance)
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusBadRequest, err)
+		return context.JSON(resp.Code, resp.Interface)
+	}
+	resp := filter.GetOKResponseType("Data", true)
 	return context.JSON(resp.Code, resp.Interface)
 }
