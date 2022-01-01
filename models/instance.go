@@ -19,21 +19,22 @@ type Instance struct {
 }
 
 func (instance *Instance) setStateCreating() {
+func (instance *Instance) SetStateCreating() {
 	instance.State = Creating
 }
 
-func (instance *Instance) setStateRunning() {
+func (instance *Instance) SetStateRunning() {
 	instance.State = Running
 }
 
-func (instance *Instance) setStateStop() {
+func (instance *Instance) SetStateStop() {
 	instance.State = Stop
 }
 
-func (instance *Instance) setStateDeleted() {
+func (instance *Instance) SetStateDeleted() {
 	instance.State = Deleted
 }
 
-func (instance *Instance) setStatePause() {
+func (instance *Instance) SetStatePause() {
 	instance.State = Pause
 }
