@@ -1,7 +1,6 @@
 package instance
 
 import (
-	"fmt"
 	"github.com/dev-beom/faas/filter"
 	"github.com/labstack/echo"
 	"net/http"
@@ -23,7 +22,6 @@ func NewController(service Service) *controller {
 
 func (c *controller) Get(context echo.Context) error {
 	id := context.Param("id")
-	fmt.Println(id)
 	instance, err := c.instanceService.Get(id)
 	if err != nil {
 		resp := filter.GetErrResponseType(http.StatusNotFound, err)
