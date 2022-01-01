@@ -60,3 +60,26 @@ func (c *controller) Create(context echo.Context) error {
 	resp := filter.GetOKResponseType("Data", true)
 	return context.JSON(resp.Code, resp.Interface)
 }
+func (c *controller) Delete(context echo.Context) error {
+	id := context.Param("id")
+	err := c.instanceService.Delete(id)
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusNotFound, err)
+		return context.JSON(resp.Code, resp.Interface)
+	}
+	resp := filter.GetOKResponseType("Data", true)
+	return context.JSON(resp.Code, resp.Interface)
+}
+func (c *controller) UpdateDescription(context echo.Context) error {
+	params := make(map[string]string)
+	_ = context.Bind(&params)
+	id := context.Param("id")
+	description := params["description"]
+	updatedInstance, err := c.instanceService.UpdateDescription(id, description)
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusNotFound, err)
+		return context.JSON(resp.Code, resp.Interface)
+	}
+	resp := filter.GetOKResponseType("Data", updatedInstance)
+	return context.JSON(resp.Code, resp.Interface)
+}

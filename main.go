@@ -19,6 +19,9 @@ func main() {
 	app.Use(middleware.Recover())
 
 	app.GET("/api/instance/:id", instanceController.Get)
+	app.GET("/api/instances", instanceController.GetAll)
+	app.POST("/api/instance", instanceController.Create)
+	app.DELETE("/api/instance/:id", instanceController.Delete)
 
 	app.Logger.Fatal(app.Start(":" + strconv.Itoa(port)))
 }
