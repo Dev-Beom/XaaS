@@ -5,8 +5,6 @@ import (
 	"github.com/dev-beom/faas/models"
 )
 
-var store = make(map[string]models.Instance)
-
 type Repository interface {
 	Find(id string) (models.Instance, error)
 	FindAll() map[string]models.Instance
@@ -16,14 +14,19 @@ type Repository interface {
 }
 
 type repository struct {
+	store map[string]models.Instance
 }
 
 func NewRepository() Repository {
 	return &repository{}
 }
 
+func NewMockRepository(mockDB map[string]models.Instance) Repository {
+	return &repository{store: mockDB}
+}
+
 func (r *repository) Find(id string) (models.Instance, error) {
-	instance, ok := store[id]
+	instance, ok := r.store[id]
 	if !ok {
 		return models.Instance{}, exception.ErrNotFoundData
 	}
@@ -31,32 +34,32 @@ func (r *repository) Find(id string) (models.Instance, error) {
 }
 
 func (r *repository) FindAll() map[string]models.Instance {
-	return store
+	return r.store
 }
 
 func (r *repository) Create(instance models.Instance) error {
-	_, ok := store[instance.Id]
+	_, ok := r.store[instance.Id]
 	if ok {
 		return exception.ErrAlreadyExist
 	}
-	store[instance.Id] = instance
+	r.store[instance.Id] = instance
 	return nil
 }
 
 func (r *repository) Delete(id string) error {
-	_, ok := store[id]
+	_, ok := r.store[id]
 	if !ok {
 		return exception.ErrNotFoundData
 	}
-	delete(store, id)
+	delete(r.store, id)
 	return nil
 }
 
 func (r *repository) Update(id string, instance models.Instance) (models.Instance, error) {
-	_, ok := store[id]
+	_, ok := r.store[id]
 	if !ok {
 		return models.Instance{}, exception.ErrNotFoundData
 	}
-	store[id] = instance
-	return store[id], nil
+	r.store[id] = instance
+	return r.store[id], nil
 }
