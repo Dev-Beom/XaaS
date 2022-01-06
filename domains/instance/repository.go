@@ -21,6 +21,10 @@ func NewRepository() Repository {
 	return &repository{}
 }
 
+func NewMockRepository(mockDB map[string]models.Instance) Repository {
+	return &repository{store: mockDB}
+}
+
 func (r *repository) Find(id string) (models.Instance, error) {
 	instance, ok := r.store[id]
 	if !ok {
