@@ -22,6 +22,7 @@ func NewController(service Service) *controller {
 	return &controller{service}
 }
 
+// Get [GET] /api/instance/:id
 func (c *controller) Get(context echo.Context) error {
 	id := context.Param("id")
 	instance, err := c.instanceService.Get(id)
@@ -33,11 +34,14 @@ func (c *controller) Get(context echo.Context) error {
 	return context.JSON(resp.Code, resp.Interface)
 }
 
+// GetAll [GET] /api/instances
 func (c *controller) GetAll(context echo.Context) error {
 	instances := c.instanceService.GetAll()
 	resp := filter.GetOKResponseType("Data", instances)
 	return context.JSON(resp.Code, resp.Interface)
 }
+
+// Create [POST] /api/instance
 func (c *controller) Create(context echo.Context) error {
 	var instanceCreateRequestDto models.InstanceCreateRequestDto
 	err := context.Bind(&instanceCreateRequestDto)
@@ -60,6 +64,8 @@ func (c *controller) Create(context echo.Context) error {
 	resp := filter.GetOKResponseType("Data", true)
 	return context.JSON(resp.Code, resp.Interface)
 }
+
+// Delete [DELETE] /api/instance/:id
 func (c *controller) Delete(context echo.Context) error {
 	id := context.Param("id")
 	err := c.instanceService.Delete(id)
@@ -70,6 +76,7 @@ func (c *controller) Delete(context echo.Context) error {
 	resp := filter.GetOKResponseType("Data", true)
 	return context.JSON(resp.Code, resp.Interface)
 }
+
 func (c *controller) UpdateDescription(context echo.Context) error {
 	params := make(map[string]string)
 	_ = context.Bind(&params)
