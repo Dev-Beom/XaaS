@@ -7,10 +7,10 @@
 </div>
 
 It is a data and command(task) delivery and status monitoring service for **X**.  
-The process delivers all the content to the node inside the instance and allows you to check all the processes.  
-The structure was simply constructed based on the Kubernetes structure, and was developed using the go language and echo framework.  
+This process sends all content to nodes within an instance, and users can check all processes.  
+The structure was simply constructed based on the Kubernetes structure, and was developed using the golang and echo framework.  
 The storage was configured using memory without using a database. (Composed of key-value map data structure)  
-If you have any opinions on my insufficient **XaaS** project, please ask for issues and full requests.  
+If you have any opinions on **XaaS** project, please enroll for issues and full requests.  
 #### Specifications for APIs and key methods can be found [here](https://github.com/Dev-Beom/XaaS/wiki).
 
 ## Architecture
