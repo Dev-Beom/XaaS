@@ -10,25 +10,17 @@ import (
 )
 
 func main() {
-	app := echo.New()
+	err := godotenv.Load(".env")
 	port := 5000
-
-	ipcServer, err := ipc.StartServer("api-server", nil)
-	if err != nil {
-		return
+	if err == nil {
+		port, _ = strconv.Atoi(os.Getenv("PORT"))
 	}
 	for {
-
-		ipcServer.Write(5, []byte("Hello Client 1"))
-		ipcServer.Write(7, []byte("Hello Client 2"))
-		ipcServer.Write(9, []byte("Hello Client 3"))
-
-		time.Sleep(time.Second)
-	}
 
 	instanceRepository := instance.NewRepository()
 	instanceService := instance.NewService(instanceRepository)
 	instanceController := instance.NewController(instanceService)
+	app := echo.New()
 
 	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
