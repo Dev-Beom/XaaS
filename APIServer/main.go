@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/dev-beom/xaas/apiserver/domains/instance"
-	ipc "github.com/james-barrow/golang-ipc"
+	"github.com/dev-beom/xaas/apiserver/domains/node"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"os"
 	"strconv"
-	"time"
 )
 
 func main() {
@@ -15,23 +15,18 @@ func main() {
 	if err == nil {
 		port, _ = strconv.Atoi(os.Getenv("PORT"))
 	}
-	for {
-
-	instanceRepository := instance.NewRepository()
-	instanceService := instance.NewService(instanceRepository)
-	instanceController := instance.NewController(instanceService)
 	app := echo.New()
+	nodeRepository := node.NewRepository()
+	nodeService := node.NewService(nodeRepository)
+	nodeController := node.NewController(nodeService)
 
 	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
 
-	app.GET("/api/instance/:id", instanceController.Get)
-	app.GET("/api/instances", instanceController.GetAll)
-	app.POST("/api/instance", instanceController.Create)
-	app.DELETE("/api/instance/:id", instanceController.Delete)
+	app.GET("/api/node/:id", nodeController.Get)
+	app.GET("/api/nodes", nodeController.GetAll)
+	app.POST("/api/node", nodeController.Create)
+	app.DELETE("/api/node/:id", nodeController.Delete)
 
 	app.Logger.Fatal(app.Start(":" + strconv.Itoa(port)))
-	_ = ipcServer.Write(1, []byte("Message from server"))
-	_ = ipcServer.Write(1, []byte("Message from server"))
-	_ = ipcServer.Write(1, []byte("Message from server"))
 }

@@ -1,4 +1,4 @@
-package instance
+package node
 
 import (
 	"github.com/dev-beom/xaas/apiserver/models"
@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	mockDB                      = make(map[string]models.Instance)
-	instanceCreateRequestBodyOk = models.Instance{
+	mockDB                  = make(map[string]models.Node)
+	nodeCreateRequestBodyOk = models.Node{
 		Id:          "test_id",
 		Description: "test_description",
 	}
@@ -20,8 +20,9 @@ var (
 
 func TestCreateInstance(t *testing.T) {
 	app := echo.New()
-	buffer, _ := utils.InterfaceToBuffer(instanceCreateRequestBodyOk)
-	request := httptest.NewRequest(http.MethodPost, "/api/instance", &buffer)
+	//mockDB["test_id"] = models.Node{}
+	buffer, _ := utils.InterfaceToBuffer(nodeCreateRequestBodyOk)
+	request := httptest.NewRequest(http.MethodPost, "/api/node", &buffer)
 	request.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	recoder := httptest.NewRecorder()
 	context := app.NewContext(request, recoder)
