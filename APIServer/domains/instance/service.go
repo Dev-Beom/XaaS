@@ -6,8 +6,8 @@ todo 비즈니스 로직 구현
 */
 
 import (
-	"github.com/dev-beom/xaas/exception"
-	"github.com/dev-beom/xaas/models"
+	"github.com/dev-beom/xaas/apiserver/exception"
+	"github.com/dev-beom/xaas/apiserver/models"
 	"time"
 )
 

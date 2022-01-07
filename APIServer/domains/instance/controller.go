@@ -1,8 +1,8 @@
 package instance
 
 import (
-	"github.com/dev-beom/xaas/filter"
-	"github.com/dev-beom/xaas/models"
+	"github.com/dev-beom/xaas/apiserver/filter"
+	"github.com/dev-beom/xaas/apiserver/models"
 	"github.com/labstack/echo"
 	"net/http"
 	"time"

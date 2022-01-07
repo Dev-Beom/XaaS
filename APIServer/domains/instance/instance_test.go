@@ -1,8 +1,8 @@
 package instance
 
 import (
-	"github.com/dev-beom/xaas/models"
-	"github.com/dev-beom/xaas/utils"
+	"github.com/dev-beom/xaas/apiserver/models"
+	"github.com/dev-beom/xaas/apiserver/utils"
 	"github.com/labstack/echo"
 	"github.com/stretchr/testify/assert"
 	"net/http"

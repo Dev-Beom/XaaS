@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/dev-beom/xaas/domains/instance"
+	"github.com/dev-beom/xaas/apiserver/domains/instance"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"strconv"
