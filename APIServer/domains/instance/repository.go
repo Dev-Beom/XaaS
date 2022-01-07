@@ -1,8 +1,8 @@
 package instance
 
 import (
-	"github.com/dev-beom/faas/exception"
-	"github.com/dev-beom/faas/models"
+	"github.com/dev-beom/xaas/apiserver/exception"
+	"github.com/dev-beom/xaas/apiserver/models"
 )
 
 type Repository interface {

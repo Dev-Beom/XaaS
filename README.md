@@ -31,5 +31,9 @@ todo 😁
 todo 😁
 
 # All file tests
+cd APIServer
+go test -v ./...
+
+cd ControllerManager
 go test -v ./... 
 ```

@@ -1,4 +1,4 @@
-module github.com/dev-beom/faas
+module github.com/dev-beom/xaas/apiserver
 
 go 1.17
 
