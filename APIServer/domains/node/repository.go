@@ -19,6 +19,7 @@ type repository struct {
 
 func NewRepository() Repository {
 	return &repository{
+		store: make(map[string]models.Node),
 	}
 }
 
