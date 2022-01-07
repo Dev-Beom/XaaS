@@ -1,8 +1,12 @@
 package node
 
 import (
+	"encoding/json"
+	"fmt"
+	"github.com/dev-beom/xaas/apiserver/constants/IPCMessage"
 	"github.com/dev-beom/xaas/apiserver/exception"
 	"github.com/dev-beom/xaas/apiserver/models"
+	ipc "github.com/james-barrow/golang-ipc"
 )
 
 type Repository interface {
@@ -14,12 +18,15 @@ type Repository interface {
 }
 
 type repository struct {
-	store map[string]models.Node
+	store     map[string]models.Node
+	ipcServer *ipc.Server
 }
 
 func NewRepository() Repository {
+	ipcServer, _ := ipc.StartServer("XaaS", nil)
 	return &repository{
-		store: make(map[string]models.Node),
+		store:     make(map[string]models.Node),
+		ipcServer: ipcServer,
 	}
 }
 
@@ -40,11 +47,16 @@ func (r *repository) FindAll() map[string]models.Node {
 }
 
 func (r *repository) Create(node models.Node) error {
-	_, ok := r.store[node.Id]
+	data, ok := r.store[node.Id]
 	if ok {
+		fmt.Println("이미 존재", data)
 		return exception.ErrAlreadyExist
 	}
-
+	bytes, _ := json.Marshal(node)
+	err := r.ipcServer.Write(IPCMessage.CREATE, bytes)
+	if err != nil {
+		return exception.ErrNodeCreate
+	}
 	r.store[node.Id] = node
 	return nil
 }
