@@ -11,7 +11,7 @@ This process sends all content to nodes within an instance, and users can check 
 The structure was simply constructed based on the Kubernetes structure, and was developed using the golang and echo framework.  
 The storage was configured using memory without using a database. (Composed of key-value map data structure)  
 If you have any opinions on **XaaS** project, please enroll for issues and full requests.  
-#### Specifications for APIs and key methods can be found [here](https://github.com/Dev-Beom/XaaS/wiki).
+#### Specifications for APIs and key methods can be found [here](https://dev-beom.github.io/XaaS).
 
 ## Architecture
 ![XaaS drawio](https://user-images.githubusercontent.com/66074802/148428900-aa5c780a-222e-4d99-9da3-e2fce1fed47d.png)  
