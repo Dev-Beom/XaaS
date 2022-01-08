@@ -2,7 +2,6 @@ package node
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/dev-beom/xaas/apiserver/constants/IPCMessage"
 	"github.com/dev-beom/xaas/apiserver/exception"
 	"github.com/dev-beom/xaas/apiserver/models"
@@ -47,13 +46,11 @@ func (r *repository) FindAll() map[string]models.Node {
 }
 
 func (r *repository) Create(node models.Node) error {
-	data, ok := r.store[node.Id]
+	_, ok := r.store[node.Id]
 	if ok {
-		fmt.Println("이미 존재", data)
 		return exception.ErrAlreadyExist
 	}
-	bytes, _ := json.Marshal(node)
-	err := r.ipcServer.Write(IPCMessage.CREATE, bytes)
+	err := r.sendNodeByIPC(node, IPCMessage.CREATE)
 	if err != nil {
 		return exception.ErrNodeCreate
 	}
@@ -75,6 +72,22 @@ func (r *repository) Update(id string, node models.Node) (models.Node, error) {
 	if !ok {
 		return models.Node{}, exception.ErrNotFoundData
 	}
+	err := r.sendNodeByIPC(node, IPCMessage.UPDATE)
+	if err != nil {
+		return models.Node{}, exception.ErrNodeUpdate
+	}
 	r.store[id] = node
 	return r.store[id], nil
+}
+
+func (r *repository) sendNodeByIPC(node models.Node, msgType int) error {
+	bytes, err := json.Marshal(node)
+	if err != nil {
+		return err
+	}
+	err = r.ipcServer.Write(msgType, bytes)
+	if err != nil {
+		return err
+	}
+	return nil
 }
