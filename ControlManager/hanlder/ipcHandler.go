@@ -2,8 +2,8 @@ package hanlder
 
 import (
 	"encoding/json"
-	"github.com/dev-beom/xaas/controllermanager/constants/IPCMessage"
-	"github.com/dev-beom/xaas/controllermanager/models"
+	"github.com/dev-beom/xaas/controlmanager/constants/IPCMessage"
+	"github.com/dev-beom/xaas/controlmanager/models"
 	ipc "github.com/james-barrow/golang-ipc"
 )
 
@@ -23,7 +23,7 @@ func Handler(pipe *ipc.Client) {
 				ipcError(err)
 				continue
 			}
-			ipcCreate(node)
+			ipcNodeCreate(node)
 		case IPCMessage.UPDATE:
 			node := new(models.Node)
 			err := json.Unmarshal(data.Data, &node)
@@ -31,7 +31,7 @@ func Handler(pipe *ipc.Client) {
 				ipcError(err)
 				continue
 			}
-			ipcUpdate(node)
+			ipcNodeUpdate(node)
 		}
 	}
 }

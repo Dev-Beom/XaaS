@@ -1,4 +1,4 @@
-module github.com/dev-beom/xaas/controllermanager
+module github.com/dev-beom/xaas/controlmanager
 
 go 1.17
 

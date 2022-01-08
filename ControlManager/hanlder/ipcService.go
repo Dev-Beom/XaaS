@@ -1,7 +1,7 @@
 package hanlder
 
 import (
-	"github.com/dev-beom/xaas/controllermanager/models"
+	"github.com/dev-beom/xaas/controlmanager/models"
 	"log"
 )
 
@@ -13,10 +13,10 @@ func ipcStatusChange(status string) {
 	log.Println("Status: " + status)
 }
 
-func ipcCreate(node *models.Node) {
-
+func ipcNodeCreate(node *models.Node) {
+	// Todo node create logic
 }
 
-func ipcUpdate(node *models.Node) {
-
+func ipcNodeUpdate(node *models.Node) {
+	// Todo node update logic
 }
