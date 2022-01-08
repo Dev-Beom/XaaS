@@ -8,10 +8,12 @@ var (
 	ErrAlreadyExist = errors.New("요청하신 데이터가 이미 존재합니다")
 )
 
-// Instance
+// Node
 var (
-	ErrInstanceNotAllowAccess = errors.New("인스턴스에 대한 접근권한이 없습니다")
-	ErrInstanceStateChange    = errors.New("인스턴스의 상태를 해당 상태로 변경할 수 없습니다")
+	ErrNodeCreate         = errors.New("노드를 생성할 수 없습니다")
+	ErrNodeUpdate         = errors.New("노드를 업데이트할 수 없습니다")
+	ErrNodeNotAllowAccess = errors.New("노드에 대한 접근권한이 없습니다")
+	ErrNodeStateChange    = errors.New("노드의 상태를 해당 상태로 변경할 수 없습니다")
 )
 
 // Model
