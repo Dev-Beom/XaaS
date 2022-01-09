@@ -22,18 +22,22 @@ If you have any opinions on **XaaS** project, please enroll for issues and full 
 ## How to use
 ```shell
 # Test-only XaaS run.
-todo 😁
+./xaas-run.sh 
 
 # API server build and run
-todo 😁
+cd APIServer
+go build main.go
+go run main.go
 
 # Controller manager build and run
-todo 😁
+cd ControlManager
+go build main.go
+go run main.go
 
 # All file tests
 cd APIServer
 go test -v ./...
 
-cd ControllerManager
+cd ControlManager
 go test -v ./... 
 ```
