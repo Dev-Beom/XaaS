@@ -1,6 +1,7 @@
 package hanlder
 
 import (
+	"github.com/dev-beom/xaas/controlmanager/commands"
 	"github.com/dev-beom/xaas/controlmanager/models"
 	"log"
 )
@@ -15,8 +16,13 @@ func ipcStatusChange(status string) {
 
 func ipcNodeCreate(node *models.Node) {
 	// Todo node create logic
+	commands.RunNodeDockerImage(node.Id)
 }
 
 func ipcNodeUpdate(node *models.Node) {
 	// Todo node update logic
+}
+
+func ipcNodeDelete(nodeID string) {
+	commands.DeleteNodeContainer(nodeID)
 }

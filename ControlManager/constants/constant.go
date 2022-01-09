@@ -1,5 +1,7 @@
 package constants
 
 const (
-	IPCName = "XaaS"
+	IPCName             = "XaaS"
+	NodeDockerImageName = "node"
+	NodeDockerfilePath  = "../Node"
 )
