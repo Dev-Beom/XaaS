@@ -65,6 +65,10 @@ func (r *repository) Delete(id string) error {
 	if !ok {
 		return exception.ErrNotFoundData
 	}
+	err := r.sendNodeByIPC(r.store[id], IPCMessage.DELETE)
+	if err != nil {
+		return exception.ErrNodeDelete
+	}
 	delete(r.store, id)
 	return nil
 }
