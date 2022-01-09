@@ -12,6 +12,7 @@ var (
 var (
 	ErrNodeCreate         = errors.New("노드를 생성할 수 없습니다")
 	ErrNodeUpdate         = errors.New("노드를 업데이트할 수 없습니다")
+	ErrNodeDelete         = errors.New("노드를 삭제할 수 없습니다")
 	ErrNodeNotAllowAccess = errors.New("노드에 대한 접근권한이 없습니다")
 	ErrNodeStateChange    = errors.New("노드의 상태를 해당 상태로 변경할 수 없습니다")
 )
