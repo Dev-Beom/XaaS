@@ -32,6 +32,14 @@ func Handler(pipe *ipc.Client) {
 				continue
 			}
 			ipcNodeUpdate(node)
+		case IPCMessage.DELETE:
+			node := new(models.Node)
+			err := json.Unmarshal(data.Data, &node)
+			if err != nil {
+				ipcError(err)
+				continue
+			}
+			ipcNodeDelete(node.Id)
 		}
 	}
 }

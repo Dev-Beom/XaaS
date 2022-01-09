@@ -27,6 +27,6 @@ func main() {
 	app.GET("/api/nodes", nodeController.GetAll)
 	app.POST("/api/node", nodeController.Create)
 	app.DELETE("/api/node/:id", nodeController.Delete)
-
+	// todo file upload 기능
 	app.Logger.Fatal(app.Start(":" + strconv.Itoa(port)))
 }
