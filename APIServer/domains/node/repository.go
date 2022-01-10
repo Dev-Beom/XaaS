@@ -86,6 +86,9 @@ func (r *repository) Update(id string, node models.Node) (models.Node, error) {
 }
 
 func (r *repository) sendNodeByIPC(node models.Node, msgType int) error {
+	if r.ipcServer == nil {
+		return nil
+	}
 	bytes, err := json.Marshal(node)
 	if err != nil {
 		return err

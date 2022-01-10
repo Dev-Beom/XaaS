@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func CheckDockerInstalled() error {
+func checkDockerInstalled() error {
 	output := utils.RunCommand("docker", "version")
 	ok := strings.Contains(output, "Version:")
 	if ok == false {
@@ -16,7 +16,16 @@ func CheckDockerInstalled() error {
 	return nil
 }
 
-func CheckDockerImage() error {
+func checkDockerRunning() error {
+	output := utils.RunCommand("docker")
+	ok := strings.Contains(output, "Docker")
+	if ok == false {
+		return errors.New("도커엔진이 실행되고있지 않습니다")
+	}
+	return nil
+}
+
+func checkDockerImage() error {
 	output := utils.RunCommand("docker", "images")
 	ok := strings.Contains(output, constants.NodeDockerImageName)
 	if ok == false {
