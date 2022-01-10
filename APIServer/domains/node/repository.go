@@ -31,7 +31,7 @@ func NewRepository() Repository {
 }
 
 func NewMockRepository(mockDB map[string]models.Node) Repository {
-	return &repository{store: mockDB}
+	return &repository{store: mockDB, ipcServer: nil}
 }
 
 func (r *repository) Find(id string) (models.Node, error) {
