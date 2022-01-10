@@ -1,7 +1,6 @@
 package node
 
 import (
-	"fmt"
 	"github.com/dev-beom/xaas/apiserver/filter"
 	"github.com/dev-beom/xaas/apiserver/models"
 	"github.com/labstack/echo"
@@ -46,7 +45,6 @@ func (c *controller) GetAll(context echo.Context) error {
 func (c *controller) Create(context echo.Context) error {
 	nodeCreateRequestDto := new(models.NodeCreateRequestDto)
 	err := context.Bind(nodeCreateRequestDto)
-	fmt.Println(nodeCreateRequestDto)
 	if err != nil {
 		resp := filter.GetErrResponseType(http.StatusInternalServerError, err)
 		return context.JSON(resp.Code, resp.Interface)

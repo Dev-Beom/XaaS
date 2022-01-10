@@ -23,7 +23,6 @@ type repository struct {
 }
 
 func NewRepository() Repository {
-	// Todo ipc name -> ENV
 	ipcServer, _ := ipc.StartServer(constants.IPCName, nil)
 	return &repository{
 		store:     make(map[string]models.Node),

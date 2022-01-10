@@ -10,7 +10,6 @@ import (
 func Handler(pipe *ipc.Client) {
 	for {
 		data, err := pipe.Read()
-
 		switch data.MsgType {
 		case IPCMessage.ERROR:
 			ipcError(err)
