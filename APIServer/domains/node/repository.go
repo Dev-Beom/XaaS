@@ -47,8 +47,7 @@ func (r *repository) FindAll() map[string]models.Node {
 }
 
 func (r *repository) Create(node models.Node) error {
-	_, ok := r.store[node.Id]
-	if ok {
+	if _, ok := r.store[node.Id]; ok {
 		return exception.ErrAlreadyExist
 	}
 	err := r.sendNodeByIPC(node, IPCMessage.CREATE)
@@ -60,8 +59,7 @@ func (r *repository) Create(node models.Node) error {
 }
 
 func (r *repository) Delete(id string) error {
-	_, ok := r.store[id]
-	if !ok {
+	if _, ok := r.store[id]; !ok {
 		return exception.ErrNotFoundData
 	}
 	err := r.sendNodeByIPC(r.store[id], IPCMessage.DELETE)
@@ -73,8 +71,7 @@ func (r *repository) Delete(id string) error {
 }
 
 func (r *repository) Update(id string, node models.Node) (models.Node, error) {
-	_, ok := r.store[id]
-	if !ok {
+	if _, ok := r.store[id]; !ok {
 		return models.Node{}, exception.ErrNotFoundData
 	}
 	err := r.sendNodeByIPC(node, IPCMessage.UPDATE)
