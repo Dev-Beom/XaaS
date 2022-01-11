@@ -1,7 +1,7 @@
 #!/bin/sh
 
-cd APIServer
+cd APIServer || exit
 ./api-server-run.sh &
 
-cd ../ControlManager
+cd ../ControlManager || exit
 go run main.go
