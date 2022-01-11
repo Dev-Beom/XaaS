@@ -4,12 +4,11 @@ import (
 	"io"
 	"log"
 	"os/exec"
-	"time"
 )
 
 func Logging(message string) {
 	// todo file logging
-	log.Println(time.Now(), ":", message)
+	log.Println(message)
 }
 
 func RunCommand(name string, arg ...string) string {

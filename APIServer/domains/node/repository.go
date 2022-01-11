@@ -2,7 +2,6 @@ package node
 
 import (
 	"encoding/json"
-	"github.com/dev-beom/xaas/apiserver/constants"
 	"github.com/dev-beom/xaas/apiserver/constants/IPCMessage"
 	"github.com/dev-beom/xaas/apiserver/exception"
 	"github.com/dev-beom/xaas/apiserver/models"
@@ -22,8 +21,7 @@ type repository struct {
 	ipcServer *ipc.Server
 }
 
-func NewRepository() Repository {
-	ipcServer, _ := ipc.StartServer(constants.IPCName, nil)
+func NewRepository(ipcServer *ipc.Server) Repository {
 	return &repository{
 		store:     make(map[string]models.Node),
 		ipcServer: ipcServer,

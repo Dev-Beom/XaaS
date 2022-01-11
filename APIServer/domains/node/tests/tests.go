@@ -2,7 +2,10 @@ package tests
 
 import (
 	"github.com/dev-beom/xaas/apiserver/models"
+	"github.com/labstack/echo"
+	"io"
 	"math/rand"
+	"net/http/httptest"
 	"strconv"
 	"time"
 )
@@ -14,6 +17,14 @@ var (
 		Description: "test_description",
 	}
 )
+
+func testInitialization(e *echo.Echo, method string, target string, body io.Reader) (*httptest.ResponseRecorder, echo.Context) {
+	request := httptest.NewRequest(method, target, body)
+	request.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	recorder := httptest.NewRecorder()
+	context := e.NewContext(request, recorder)
+	return recorder, context
+}
 
 func initMockNodeDataForTest() {
 	for i := 0; i < 100; i++ {
