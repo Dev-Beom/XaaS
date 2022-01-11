@@ -16,3 +16,6 @@
 
 .idea
 .env
+test/go.mod
+test/go.sum
+test/main.go
