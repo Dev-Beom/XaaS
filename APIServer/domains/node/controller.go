@@ -1,9 +1,9 @@
 package node
 
 import (
-	"fmt"
 	"github.com/dev-beom/xaas/apiserver/filter"
 	"github.com/dev-beom/xaas/apiserver/models"
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 	"net/http"
 	"time"
@@ -17,10 +17,14 @@ todo 3 layer 구조 완성
 
 type controller struct {
 	nodeService Service
+	validate    *validator.Validate
 }
 
 func NewController(service Service) *controller {
-	return &controller{service}
+	return &controller{
+		service,
+		validator.New(),
+	}
 }
 
 // Get [GET] /api/node/:id
@@ -46,9 +50,13 @@ func (c *controller) GetAll(context echo.Context) error {
 func (c *controller) Create(context echo.Context) error {
 	nodeCreateRequestDto := new(models.NodeCreateRequestDto)
 	err := context.Bind(nodeCreateRequestDto)
-	fmt.Println(nodeCreateRequestDto)
 	if err != nil {
 		resp := filter.GetErrResponseType(http.StatusInternalServerError, err)
+		return context.JSON(resp.Code, resp.Interface)
+	}
+	err = c.validate.Struct(nodeCreateRequestDto)
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusBadRequest, err)
 		return context.JSON(resp.Code, resp.Interface)
 	}
 	var node = models.Node{

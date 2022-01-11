@@ -1,5 +1,6 @@
 package constants
 
 const (
-	IPCName = "XaaS"
+	IPCName     = "XaaS"
+	MockIPCName = "Mock"
 )

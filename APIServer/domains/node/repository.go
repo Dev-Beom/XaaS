@@ -23,7 +23,6 @@ type repository struct {
 }
 
 func NewRepository() Repository {
-	// Todo ipc name -> ENV
 	ipcServer, _ := ipc.StartServer(constants.IPCName, nil)
 	return &repository{
 		store:     make(map[string]models.Node),
@@ -32,7 +31,7 @@ func NewRepository() Repository {
 }
 
 func NewMockRepository(mockDB map[string]models.Node) Repository {
-	return &repository{store: mockDB}
+	return &repository{store: mockDB, ipcServer: nil}
 }
 
 func (r *repository) Find(id string) (models.Node, error) {
@@ -48,8 +47,7 @@ func (r *repository) FindAll() map[string]models.Node {
 }
 
 func (r *repository) Create(node models.Node) error {
-	_, ok := r.store[node.Id]
-	if ok {
+	if _, ok := r.store[node.Id]; ok {
 		return exception.ErrAlreadyExist
 	}
 	err := r.sendNodeByIPC(node, IPCMessage.CREATE)
@@ -61,8 +59,7 @@ func (r *repository) Create(node models.Node) error {
 }
 
 func (r *repository) Delete(id string) error {
-	_, ok := r.store[id]
-	if !ok {
+	if _, ok := r.store[id]; !ok {
 		return exception.ErrNotFoundData
 	}
 	err := r.sendNodeByIPC(r.store[id], IPCMessage.DELETE)
@@ -74,8 +71,7 @@ func (r *repository) Delete(id string) error {
 }
 
 func (r *repository) Update(id string, node models.Node) (models.Node, error) {
-	_, ok := r.store[id]
-	if !ok {
+	if _, ok := r.store[id]; !ok {
 		return models.Node{}, exception.ErrNotFoundData
 	}
 	err := r.sendNodeByIPC(node, IPCMessage.UPDATE)
@@ -87,6 +83,9 @@ func (r *repository) Update(id string, node models.Node) (models.Node, error) {
 }
 
 func (r *repository) sendNodeByIPC(node models.Node, msgType int) error {
+	if r.ipcServer == nil {
+		return nil
+	}
 	bytes, err := json.Marshal(node)
 	if err != nil {
 		return err

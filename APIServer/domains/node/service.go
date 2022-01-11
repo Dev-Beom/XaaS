@@ -40,7 +40,7 @@ func (s *service) GetAll() map[string]models.Node {
 func (s *service) Create(node models.Node) error {
 	err := s.nodeRepository.Create(node)
 	if err != nil {
-		return exception.ErrAlreadyExist
+		return err
 	}
 	return nil
 }

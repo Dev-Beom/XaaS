@@ -19,8 +19,8 @@ type Node struct {
 }
 
 type NodeCreateRequestDto struct {
-	Id          string `json:"id"`
-	Description string `json:"description"`
+	Id          string `json:"id" validate:"min=2"`
+	Description string `json:"description" validate:"required"`
 }
 
 func (node *Node) SetStateCreating() {

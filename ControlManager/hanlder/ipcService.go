@@ -15,7 +15,6 @@ func ipcStatusChange(status string) {
 }
 
 func ipcNodeCreate(node *models.Node) {
-	// Todo node create logic
 	commands.RunNodeDockerImage(node.Id)
 }
 
