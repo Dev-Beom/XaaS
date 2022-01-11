@@ -1,10 +1,9 @@
 # XaaS: X as a Service
 
-<div align="left">
-  <img src="https://img.shields.io/badge/Go-1.17-00ADD8?logo=Go"> 
-  <img src="https://img.shields.io/badge/Docker-20.10.7-2496ED?logo=Docker">
-  <img src="https://img.shields.io/badge/Echo-3.3.10-ffffff?logo=Echo">
-</div>
+<img src="https://img.shields.io/badge/Go-1.17-00ADD8?logo=Go"> 
+<img src="https://img.shields.io/badge/Docker-20.10.7-2496ED?logo=Docker">
+<img src="https://img.shields.io/badge/Echo-3.3.10-ffffff?logo=Echo">
+<img src="https://img.shields.io/badge/TEST Env-MacOS | Window-008fff">
 
 It is a data and command(task) delivery and status monitoring service for **X**.  
 This process sends all content to nodes within an instance, and users can check all processes.  
@@ -22,16 +21,14 @@ If you have any opinions on **XaaS** project, please enroll for issues and full 
 ## How to use
 ```shell
 # Test-only XaaS run.
-./xaas-run.sh 
+sh ./xaas-run.sh 
 
-# API server build and run
+# API server run
 cd APIServer
-go build main.go
 go run main.go
 
-# Controller manager build and run
+# Controller manager  run
 cd ControlManager
-go build main.go
 go run main.go
 
 # All file tests
