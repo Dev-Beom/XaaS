@@ -3,6 +3,9 @@ module github.com/dev-beom/xaas/apiserver
 go 1.17
 
 require (
+	github.com/go-playground/validator v9.31.0+incompatible
+	github.com/james-barrow/golang-ipc v0.0.0-20210227130457-95e7cc81f5e2
+	github.com/joho/godotenv v1.4.0
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/stretchr/testify v1.7.0
 )
@@ -13,9 +16,6 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator v9.31.0+incompatible // indirect
-	github.com/james-barrow/golang-ipc v0.0.0-20210227130457-95e7cc81f5e2 // indirect
-	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/labstack/gommon v0.3.1 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
