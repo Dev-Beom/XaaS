@@ -4,19 +4,9 @@ import (
 	"github.com/dev-beom/xaas/apiserver/domains/node"
 	"github.com/labstack/echo"
 	"github.com/stretchr/testify/assert"
-	"io"
 	"net/http"
-	"net/http/httptest"
 	"testing"
 )
-
-func testInitialization(e *echo.Echo, method string, target string, body io.Reader) (*httptest.ResponseRecorder, echo.Context) {
-	request := httptest.NewRequest(method, target, body)
-	request.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-	recorder := httptest.NewRecorder()
-	context := e.NewContext(request, recorder)
-	return recorder, context
-}
 
 func Test_Node_Find_API(t *testing.T) {
 	app := echo.New()
