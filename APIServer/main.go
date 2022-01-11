@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/dev-beom/xaas/apiserver/config"
 	"github.com/dev-beom/xaas/apiserver/constants"
 	"github.com/dev-beom/xaas/apiserver/domains/node"
 	"github.com/dev-beom/xaas/apiserver/handler"
@@ -19,14 +20,17 @@ func main() {
 		port, _ = strconv.Atoi(os.Getenv("PORT"))
 	}
 	ipcServer, _ := ipc.StartServer(constants.IPCName, nil)
+
 	app := echo.New()
 	nodeRepository := node.NewRepository(ipcServer)
 	nodeService := node.NewService(nodeRepository)
 	nodeController := node.NewController(nodeService)
 
 	go handler.IpcHandler(ipcServer, nodeRepository)
-	app.Use(middleware.Logger())
+	app.Use(config.LoggerConfig())
 	app.Use(middleware.Recover())
+	app.Static("/static", "public")
+	app.File("/", "public/index.html")
 
 	app.GET("/api/node/:id", nodeController.Get)
 	app.GET("/api/nodes", nodeController.GetAll)
