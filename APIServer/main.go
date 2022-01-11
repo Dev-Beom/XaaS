@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/dev-beom/xaas/apiserver/constants"
 	"github.com/dev-beom/xaas/apiserver/domains/node"
+	"github.com/dev-beom/xaas/apiserver/handler"
 	ipc "github.com/james-barrow/golang-ipc"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
@@ -23,6 +24,7 @@ func main() {
 	nodeService := node.NewService(nodeRepository)
 	nodeController := node.NewController(nodeService)
 
+	go handler.IpcHandler(ipcServer, nodeRepository)
 	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
 
@@ -32,4 +34,5 @@ func main() {
 	app.DELETE("/api/node/:id", nodeController.Delete)
 	// todo file upload 기능
 	app.Logger.Fatal(app.Start(":" + strconv.Itoa(port)))
+
 }
