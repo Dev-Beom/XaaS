@@ -1,4 +1,4 @@
-package main
+package apiserver
 
 import (
 	"github.com/dev-beom/xaas/apiserver/config"
@@ -11,9 +11,12 @@ import (
 	"github.com/labstack/echo/middleware"
 	"os"
 	"strconv"
+	"sync"
 )
 
-func main() {
+func Run(runner *sync.WaitGroup) {
+	defer runner.Done()
+
 	err := godotenv.Load(".env")
 	port := 5000
 	if err == nil {
@@ -38,5 +41,4 @@ func main() {
 	app.DELETE("/api/node/:id", nodeController.Delete)
 	// todo file upload 기능
 	app.Logger.Fatal(app.Start(":" + strconv.Itoa(port)))
-
 }
