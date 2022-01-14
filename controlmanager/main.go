@@ -1,4 +1,4 @@
-package ControlManager
+package controlmanager
 
 import (
 	"github.com/dev-beom/xaas/controlmanager/constants"

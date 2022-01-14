@@ -1,4 +1,4 @@
-package APIServer
+package apiserver
 
 import (
 	"github.com/dev-beom/xaas/apiserver/config"
