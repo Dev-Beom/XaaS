@@ -1,11 +1,14 @@
 # XaaS: X as a Service
 
-<img src="https://img.shields.io/badge/Go-1.17-00ADD8?logo=Go"> 
-<img src="https://img.shields.io/badge/Docker-20.10.7-2496ED?logo=Docker">
-<img src="https://img.shields.io/badge/Echo-3.3.10-ffffff?logo=Echo">
-<img src="https://img.shields.io/badge/TEST Env-MacOS | Window-008fff">
+<div>
+    <img src="https://img.shields.io/badge/Go-1.17-00ADD8?logo=Go"> 
+    <img src="https://img.shields.io/badge/Docker-20.10.7-2496ED?logo=Docker">
+    <img src="https://img.shields.io/badge/Echo-3.3.10-ffffff?logo=Echo">
+    <img src="https://img.shields.io/badge/TEST Env-ubuntu, macos, windows-008fff">
+    <img src="https://github.com/Dev-Beom/XaaS/actions/workflows/CI-TEST.yml/badge.svg">
+</div>
 
-It is a data and command(task) delivery and status monitoring service for **X**.  
+It is a data and command(task) delivery and status monitoring service.  
 This process sends all content to nodes within an instance, and users can check all processes.  
 The structure was simply constructed based on the Kubernetes structure, and was developed using the golang and echo framework.  
 The storage was configured using memory without using a database. (Composed of key-value map data structure)  
@@ -20,21 +23,13 @@ If you have any opinions on **XaaS** project, please enroll for issues and full 
 
 ## How to use
 ```shell
-# Test-only XaaS run.
-sh ./xaas-run.sh 
-
-# API server run
-cd APIServer
-go run main.go
-
-# Controller manager  run
-cd ControlManager
+# XaaS run.
 go run main.go
 
 # All file tests
-cd APIServer
+cd apiserver
 go test -v ./...
 
-cd ControlManager
+cd controlmanager
 go test -v ./... 
 ```
