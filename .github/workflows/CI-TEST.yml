@@ -14,5 +14,9 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Test
+      - name: API Server Test
         run: go test ./...
+        working-directory: ./apiserver
+      - name: Control Manager Test
+        run: go test ./...
+        working-directory: ./controlmanager
