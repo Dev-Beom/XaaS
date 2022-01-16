@@ -8,11 +8,10 @@
     <img src="https://github.com/Dev-Beom/XaaS/actions/workflows/CI-TEST.yml/badge.svg">
 </div>
 
-It is a data and command(task) delivery and status monitoring service.  
-This process sends all content to nodes within an instance, and users can check all processes.  
+It is a data & command(task) delivery and status monitoring service.  
+This process sends all content to nodes within an instance, and users can check all the processes.  
 The structure was simply constructed based on the Kubernetes structure, and was developed using the golang and echo framework.  
-The storage was configured using memory without using a database. (Composed of key-value map data structure)  
-If you have any opinions on **XaaS** project, please enroll for issues and full requests.  
+If you have any opinions on **XaaS** project, please enroll for issues and pull requests.  
 #### Specifications for APIs and key methods can be found [here](https://dev-beom.github.io/XaaS).
 
 ## Architecture
