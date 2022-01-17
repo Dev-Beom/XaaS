@@ -5,7 +5,10 @@ import (
 	"github.com/dev-beom/xaas/apiserver/models"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
+	"io"
+	"mime/multipart"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -98,5 +101,45 @@ func (c *controller) UpdateDescription(context echo.Context) error {
 		return context.JSON(resp.Code, resp.Interface)
 	}
 	resp := filter.GetOKResponseType("Data", updatedNode)
+	return context.JSON(resp.Code, resp.Interface)
+}
+
+func (c *controller) FileUpload(context echo.Context) error {
+	form, err := context.MultipartForm()
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusBadRequest, err)
+		return context.JSON(resp.Code, resp.Interface)
+	}
+	files := form.File["files"]
+	for _, file := range files {
+		src, err := file.Open()
+		if err != nil {
+			resp := filter.GetErrResponseType(http.StatusBadRequest, err)
+			return context.JSON(resp.Code, resp.Interface)
+		}
+		defer func(src multipart.File) {
+			err := src.Close()
+			if err != nil {
+
+			}
+		}(src)
+
+		dst, err := os.Create(file.Filename)
+		if err != nil {
+			return err
+		}
+		defer func(src multipart.File) {
+			err := src.Close()
+			if err != nil {
+
+			}
+		}(src)
+
+		if _, err = io.Copy(dst, src); err != nil {
+			resp := filter.GetErrResponseType(http.StatusBadRequest, err)
+			return context.JSON(resp.Code, resp.Interface)
+		}
+	}
+	resp := filter.GetOKResponseType("Status", "ok")
 	return context.JSON(resp.Code, resp.Interface)
 }
