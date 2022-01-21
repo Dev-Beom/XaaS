@@ -3,14 +3,9 @@ package node
 import (
 	"github.com/dev-beom/xaas/apiserver/filter"
 	"github.com/dev-beom/xaas/apiserver/models"
-	"github.com/dev-beom/xaas/apiserver/utils"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
-	"io"
-	"log"
-	"mime/multipart"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -121,41 +116,11 @@ func (c *controller) FileUpload(context echo.Context) error {
 		resp := filter.GetErrResponseType(http.StatusBadRequest, err)
 		return context.JSON(resp.Code, resp.Interface)
 	}
-	files := form.File["files"]
-	for _, file := range files {
-		src, err := file.Open()
-		if err != nil {
-			resp := filter.GetErrResponseType(http.StatusBadRequest, err)
-			return context.JSON(resp.Code, resp.Interface)
-		}
-		defer func(src multipart.File) {
-			err := src.Close()
-			if err != nil {
-
-			}
-		}(src)
-		err = os.MkdirAll("model", 0755)
-		if err != nil {
-			resp := filter.GetErrResponseType(http.StatusInternalServerError, err)
-			return context.JSON(resp.Code, resp.Interface)
-		}
-		log.Println(nodeID)
-		fileExtension, _ := utils.GetFileExtension(file.Filename)
-		dst, err := os.Create("./model/" + newFileName + "." + fileExtension)
-		if err != nil {
-			return err
-		}
-		defer func(src multipart.File) {
-			err := src.Close()
-			if err != nil {
-
-			}
-		}(src)
-		if _, err = io.Copy(dst, src); err != nil {
-			resp := filter.GetErrResponseType(http.StatusBadRequest, err)
-			return context.JSON(resp.Code, resp.Interface)
-		}
+	err = c.nodeService.FileUpload(nodeID, newFileName, form)
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusBadRequest, err)
+		return context.JSON(resp.Code, resp.Interface)
 	}
-	resp := filter.GetOKResponseType("Status", "ok")
+	resp := filter.GetOKResponseType("Data", true)
 	return context.JSON(resp.Code, resp.Interface)
 }

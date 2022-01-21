@@ -8,6 +8,10 @@ todo 비즈니스 로직 구현
 import (
 	"github.com/dev-beom/xaas/apiserver/exception"
 	"github.com/dev-beom/xaas/apiserver/models"
+	"github.com/dev-beom/xaas/apiserver/utils"
+	"io"
+	"mime/multipart"
+	"os"
 	"time"
 )
 
@@ -18,6 +22,7 @@ type Service interface {
 	Delete(id string) error
 	UpdateDescription(id string, description string) (models.Node, error)
 	UpdateState(id string, state string) (models.Node, error)
+	FileUpload(id string, filename string, file *multipart.Form) error
 }
 
 type service struct {
@@ -87,4 +92,34 @@ func (s *service) UpdateState(id string, state string) (models.Node, error) {
 		return models.Node{}, nil
 	}
 	return updatedNode, nil
+}
+
+func (s *service) FileUpload(id string, filename string, form *multipart.Form) error {
+	// Todo bind logic
+	files := form.File["files"]
+	for _, file := range files {
+		src, err := file.Open()
+		if err != nil {
+			return err
+		}
+		defer func(src multipart.File) {
+			_ = src.Close()
+		}(src)
+		err = os.MkdirAll("model", 0755)
+		if err != nil {
+			return err
+		}
+		fileExtension, _ := utils.GetFileExtension(file.Filename)
+		dst, err := os.Create("./model/" + filename + "." + fileExtension)
+		if err != nil {
+			return err
+		}
+		defer func(src multipart.File) {
+			_ = src.Close()
+		}(src)
+		if _, err = io.Copy(dst, src); err != nil {
+			return err
+		}
+	}
+	return nil
 }
