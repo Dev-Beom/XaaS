@@ -3,9 +3,11 @@ package node
 import (
 	"github.com/dev-beom/xaas/apiserver/filter"
 	"github.com/dev-beom/xaas/apiserver/models"
+	"github.com/dev-beom/xaas/apiserver/utils"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -105,6 +107,15 @@ func (c *controller) UpdateDescription(context echo.Context) error {
 }
 
 func (c *controller) FileUpload(context echo.Context) error {
+	var nodeID string
+	var newFileName string
+	qParams := context.QueryParams()
+	if val, ok := qParams["id"]; ok {
+		nodeID = val[0]
+	}
+	if val, ok := qParams["name"]; ok {
+		newFileName = val[0]
+	}
 	form, err := context.MultipartForm()
 	if err != nil {
 		resp := filter.GetErrResponseType(http.StatusBadRequest, err)
@@ -123,8 +134,14 @@ func (c *controller) FileUpload(context echo.Context) error {
 
 			}
 		}(src)
-
-		dst, err := os.Create(file.Filename)
+		err = os.MkdirAll("model", 0755)
+		if err != nil {
+			resp := filter.GetErrResponseType(http.StatusInternalServerError, err)
+			return context.JSON(resp.Code, resp.Interface)
+		}
+		log.Println(nodeID)
+		fileExtension, _ := utils.GetFileExtension(file.Filename)
+		dst, err := os.Create("./model/" + newFileName + "." + fileExtension)
 		if err != nil {
 			return err
 		}
@@ -134,7 +151,6 @@ func (c *controller) FileUpload(context echo.Context) error {
 
 			}
 		}(src)
-
 		if _, err = io.Copy(dst, src); err != nil {
 			resp := filter.GetErrResponseType(http.StatusBadRequest, err)
 			return context.JSON(resp.Code, resp.Interface)
