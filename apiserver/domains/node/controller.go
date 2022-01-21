@@ -100,3 +100,27 @@ func (c *controller) UpdateDescription(context echo.Context) error {
 	resp := filter.GetOKResponseType("Data", updatedNode)
 	return context.JSON(resp.Code, resp.Interface)
 }
+
+func (c *controller) FileUpload(context echo.Context) error {
+	var nodeID string
+	var newFileName string
+	qParams := context.QueryParams()
+	if val, ok := qParams["id"]; ok {
+		nodeID = val[0]
+	}
+	if val, ok := qParams["name"]; ok {
+		newFileName = val[0]
+	}
+	form, err := context.MultipartForm()
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusBadRequest, err)
+		return context.JSON(resp.Code, resp.Interface)
+	}
+	err = c.nodeService.FileUpload(nodeID, newFileName, form)
+	if err != nil {
+		resp := filter.GetErrResponseType(http.StatusBadRequest, err)
+		return context.JSON(resp.Code, resp.Interface)
+	}
+	resp := filter.GetOKResponseType("Data", true)
+	return context.JSON(resp.Code, resp.Interface)
+}
